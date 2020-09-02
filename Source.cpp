@@ -20,21 +20,25 @@ public:
 class Bar
 {
 public:
-	int AlcoholQuality(int alcoholType, int numbPiople)
+	// numberOfMinors - кількість неповнолітніх
+	int AlcoholQuality(int alcoholType, int numbPiople, int numberOfMinors)
 	{
 		switch (alcoholType)
 		{
 			// beer
-		case 1: return 30 * numbPiople;
+		case 1: return 30 * (numbPiople - numberOfMinors);
 
 			// Low-alcohol beverages
-		case 2: return 50 * numbPiople;
+		case 2: return 50 * (numbPiople- numberOfMinors);
 
 			//Vodka
 		case 3: return 150;
 
-			// No alcohol
-		case 4: return 0;
+			// No alcohol beer
+		case 4: return 40;
+
+			// Juice for children :)
+		case 5: return 40;
 
 		}
 	}
@@ -114,57 +118,57 @@ private:
 	Massage _massage;
 	Hotel _hotel;
 public:
-	int One_hour_pleasure_Pool(int numbersHours, int numbPiople, int alcoholType)
+	int One_hour_pleasure_Pool(int numbersHours, int numbPiople, int alcoholType, int numberOfMinors)
 	{
 		int poolPrice = _pool.RentPool(numbersHours, numbPiople);
-		int barPrice = _bar.AlcoholQuality(alcoholType, numbPiople);
+		int barPrice = _bar.AlcoholQuality(alcoholType, numbPiople, numberOfMinors);
 		return poolPrice  + barPrice;
 	}
 
-	int One_hour_pleasure_Pool_Sauna(int numbersHours, int numbPiople, int alcoholType)
+	int One_hour_pleasure_Pool_Sauna(int numbersHours, int numbPiople, int alcoholType, int numberOfMinors)
 	{
 		int poolPrice = _pool.RentSauna(numbersHours, numbPiople);
-		int barPrice = _bar.AlcoholQuality(alcoholType, numbPiople);
+		int barPrice = _bar.AlcoholQuality(alcoholType, numbPiople, numberOfMinors);
 		return poolPrice + barPrice;
 	}
 
-	int One_hour_pleasure_Billiard(int numbersHours, int numbPiople, int alcoholType, int numbersTable)
+	int One_hour_pleasure_Billiard(int numbersHours, int numbPiople, int alcoholType, int numbersTable, int numberOfMinors)
 	{
 		int billiardPrice = _billiard.RentBilliard(numbersHours, numbersTable);
-		int barPrice = _bar.AlcoholQuality(alcoholType, numbPiople);
+		int barPrice = _bar.AlcoholQuality(alcoholType, numbPiople, numberOfMinors);
 		return billiardPrice + barPrice;
 	}
 
-	int One_hour_pleasure_Massage(int numbPiople, int alcoholType)
+	int One_hour_pleasure_Massage(int numbPiople, int alcoholType, int numberOfMinors)
 	{
 		int massagePrice = _massage.MassageSession(numbPiople);
-		int barPrice = _bar.AlcoholQuality(alcoholType, numbPiople);
+		int barPrice = _bar.AlcoholQuality(alcoholType, numbPiople, numberOfMinors);
 		return massagePrice + barPrice;
 	}
 
-	int One_evening_pleasure(int numbPiople, int alcoholType)
+	int One_evening_pleasure(int numbPiople, int alcoholType, int numberOfMinors)
 	{
 		int restaurantPrice = _restaurant.Dinner();
-		int barPrice = _bar.AlcoholQuality(alcoholType, numbPiople);
+		int barPrice = _bar.AlcoholQuality(alcoholType, numbPiople, numberOfMinors);
 		int djPricee = _bar.DJShow(numbPiople);
 		return (restaurantPrice * numbPiople) + barPrice + djPricee;
 	}
 
-	int One_night_pleasure(int numbPiople, int alcoholType, int roomQuality, int numbersRooms)
+	int One_night_pleasure(int numbPiople, int alcoholType, int roomQuality, int numbersRooms, int numberOfMinors)
 	{
-		int barPrice = _bar.AlcoholQuality(alcoholType, numbPiople);
+		int barPrice = _bar.AlcoholQuality(alcoholType, numbPiople, numberOfMinors);
 		int djPricee = _bar.DJShow(numbPiople);
 		int hotelPrice = _hotel.BookRoom(roomQuality, numbersRooms);
 		return barPrice + djPricee + hotelPrice;
 	}
 
-	int Holidays_pleasure(int numbersHoursPool, int numbersHoursBilloard, int numbPiople, int alcoholType, int numbersTable,  int roomQuality, int numbersRooms)
+	int Holidays_pleasure(int numbersHoursPool, int numbersHoursBilloard, int numbPiople, int alcoholType, int numbersTable,  int roomQuality, int numbersRooms, int numberOfMinors)
 	{
 		int poolPrice = _pool.RentPool(numbersHoursPool, numbPiople);
 		int billiardPrice = _billiard.RentBilliard(numbersHoursBilloard, numbersTable);
 		int restaurantPrice = _restaurant.Complex();
 		int massagePrice = _massage.MassageSession(numbPiople);
-		int barPrice = _bar.AlcoholQuality(alcoholType, numbPiople);
+		int barPrice = _bar.AlcoholQuality(alcoholType, numbPiople, numberOfMinors);
 		int djPricee = _bar.DJShow(numbPiople);
 		int hotelPrice = _hotel.BookRoom(roomQuality, numbersRooms);
 		
@@ -176,7 +180,7 @@ public:
 int main()
 {
 	ObarivResortFasad resortFasad;
-	int resortPrice = resortFasad.Holidays_pleasure(3,4,6,1,2,2,3);
+	int resortPrice = resortFasad.Holidays_pleasure(3,4,6,1,2,2,3,1);
 	cout << "Price: " << resortPrice << endl;
 
 
